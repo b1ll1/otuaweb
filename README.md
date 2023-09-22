@@ -10,3 +10,8 @@ The aim of this project is to demonstrate to users how much they could be saving
 1. The next level up is to include a backend to store all of the wonderfully environmentally friendly journeys, as well as personal information such as car MPG, local fuel pricing etc.
 1. Step 3 is to start thinking about how to incorporate a social network effect into the project. Of course the slicker we can get the user journey from going on the app to committing to a cleaner journey, the more likely they are to use the service.
 1. Step 4 -> The fancy stuff, it would be cool to suggest shared journeys depending on useage patterns of friends and family. If we could prompt users to share, again they're more likely to be _nudged_ into action.
+
+## To Do List
+### Bugs
+1. Redux store not allowing state to be updated consistently. Sometimes state is completely overridden, sometimes state works correctly and updates only according to new input.
+    1. Re-doing FreeCodeCamp tutorials, this may have something to do with the asynch nature of some of the dispatch calls. I'll investigate.
