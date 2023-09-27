@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/otuaweb/static/css/main.8ab6182c.css",
+    "main.js": "/otuaweb/static/js/main.d85f89e3.js",
+    "static/js/787.3904df45.chunk.js": "/otuaweb/static/js/787.3904df45.chunk.js",
+    "index.html": "/otuaweb/index.html",
+    "main.8ab6182c.css.map": "/otuaweb/static/css/main.8ab6182c.css.map",
+    "main.d85f89e3.js.map": "/otuaweb/static/js/main.d85f89e3.js.map",
+    "787.3904df45.chunk.js.map": "/otuaweb/static/js/787.3904df45.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8ab6182c.css",
+    "static/js/main.d85f89e3.js"
+  ]
+}
