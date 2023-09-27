@@ -5,7 +5,12 @@ const initialState = {
   waypoints: null,
   destination: {},
   travelTimeInformation: {},
-  hoverState: {}
+  hoverState: {},
+  decision: {
+    driveSeparately: 'green',
+    driverDriving: 'red',
+    passengerDriving: 'red'
+  }
 };
 
 export const navSlice = createSlice({
@@ -29,11 +34,14 @@ export const navSlice = createSlice({
     },
     setHoverState: (state, action) => {
       state.hoverState[action.payload.journey] = action.payload.hover
+    },
+    setDecision: (state, action) => {
+      state.decision = action.payload
     }
   },
 });
 
-export const { setOrigin, setWaypoints, setDestination, setTravelTimeInformation, clearTravelTimeInformation, setHoverState } =
+export const { setOrigin, setWaypoints, setDestination, setTravelTimeInformation, clearTravelTimeInformation, setHoverState, setDecision } =
   navSlice.actions;
 
 export const selectOrigin = (state) => state.nav.origin;
@@ -42,5 +50,6 @@ export const selectDestination = (state) => state.nav.destination;
 export const selectTravelTimeInformation = (state) =>
   state.nav.travelTimeInformation;
 export const selectHoverState = (state) => state.nav.hoverState
+export const selectDecision = (state) => state.nav.decision
 
 export default navSlice.reducer;

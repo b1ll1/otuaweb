@@ -69,7 +69,7 @@ const TravelInput = (props) => {
   }, [dispatch, props.user, props.google]);
 
   return (
-    <div className={`bg-white mx-2 mt-2 shadow-xl`}>
+    <div className={`bg-white mx-2 mt-2 rounded-lg shadow-xl`}>
       <div className={`flex flex-row items-center`}>
         <div
           className={`bg-${props.colour}-400 w-10 h-10 rounded-full shadow-lg m-3 flex justify-center items-center`}

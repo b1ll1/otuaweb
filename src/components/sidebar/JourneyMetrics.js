@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectDecision,
   selectHoverState,
   selectTravelTimeInformation,
   setHoverState,
 } from "../../slices/navSlice";
 
 const JourneyMetrics = (props) => {
+  const decision = useSelector(selectDecision);
+
   const travelTimeInformation = useSelector(selectTravelTimeInformation);
   const originToDestinationCost =
     (travelTimeInformation[props.user]?.originToDestination?.distance.value /
@@ -34,17 +37,6 @@ const JourneyMetrics = (props) => {
         <div className="bg-white rounded-full w-7 h-7 flex justify-center items-center">
           <p>{props.userImage}</p>
         </div>
-        {/* //   <div className={`text-white text-center`}>
-    //     📏:{" "}
-    //     {travelTimeInformation[props.user]?.originToDestination?.distance.text}
-    //   </div>
-    //   <div className={`text-white text-center`}>
-    //     ⌛:{" "}
-    //     {travelTimeInformation[props.user]?.originToDestination?.duration.text}
-    //   </div>
-    //   <div className={`text-white text-center`}>
-    //     💷 : £{originToDestinationCost.toFixed(2)}{" "}
-  //   </div> */}
       </div>
       <div className="flex flex-row px-5 bg-white rounded-b-lg">
         <div className="flex flex-col w-1/2 text-start">
@@ -63,7 +55,7 @@ const JourneyMetrics = (props) => {
           </div>
         </div>
         <div className="w-1/2 flex items-center justify-center">
-          <p className="bg-red-300 rounded-full text-white w-20 py-1">
+          <p className={`bg-${decision.driveSeparately}-300 rounded-full text-white w-20 py-1`}>
             £{originToDestinationCost.toFixed(2)}
           </p>
         </div>

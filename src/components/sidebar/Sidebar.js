@@ -3,11 +3,14 @@ import TravelInput from "./TravelInput";
 import JourneyMetrics from "./JourneyMetrics";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectDecision,
   selectDestination,
   selectOrigin,
   selectTravelTimeInformation,
+  setDecision,
   setTravelTimeInformation,
 } from "../../slices/navSlice";
+import Calculation from "./journeyCalculations/Calculation";
 
 function Sidebar(props) {
   const dispatch = useDispatch();
@@ -63,6 +66,71 @@ function Sidebar(props) {
         }
       });
     }
+
+    if (origin["driver"] && origin["passenger1"]) {
+      const distanceMatrixService = new props.google.DistanceMatrixService();
+
+      const request = {
+        origins: [origin["driver"].location],
+        destinations: [origin["passenger1"].location],
+        travelMode: "DRIVING",
+      };
+
+      distanceMatrixService.getDistanceMatrix(request, (response, status) => {
+        if (status === "OK") {
+          dispatch(
+            setTravelTimeInformation({
+              user: "driver",
+              key: "originToPassengerOrigin",
+              data: response.rows[0].elements[0],
+            })
+          );
+        } else {
+          console.error("Error:", status);
+        }
+      });
+    }
+
+    if (destination["driver"] && destination["passenger1"]) {
+      const distanceMatrixService = new props.google.DistanceMatrixService();
+
+      const request = {
+        origins: [destination["driver"].location],
+        destinations: [destination["passenger1"].location],
+        travelMode: "DRIVING",
+      };
+
+      distanceMatrixService.getDistanceMatrix(request, (response, status) => {
+        if (status === "OK") {
+          dispatch(
+            setTravelTimeInformation({
+              user: "driver",
+              key: "destinationToPassengerDestination",
+              data: response.rows[0].elements[0],
+            })
+          );
+        } else {
+          console.error("Error:", status);
+        }
+      });
+    }
+
+    if (
+      !(
+        origin["driver"] &&
+        destination["driver"] &&
+        origin["passenger1"] &&
+        destination["passenger1"]
+      )
+    ) {
+      dispatch(
+        setDecision({
+          driveSeparately: "green",
+          driverDriving: "red",
+          passengerDriving: "red",
+        })
+      );
+    }
   }, [origin, destination, dispatch]);
 
   return (
@@ -84,13 +152,23 @@ function Sidebar(props) {
         Object.keys(travelTimeInformation["driver"]).length > 0 && (
           <JourneyMetrics user="driver" colour="sky" userImage="👨🏼️" />
         )}
-      {/* {typeof travelTimeInformation["passenger1"] !== "undefined" &&
+      {typeof travelTimeInformation["passenger1"] !== "undefined" &&
         Object.keys(travelTimeInformation["passenger1"]).length > 0 && (
           <JourneyMetrics user="passenger1" colour="violet" userImage="👤" />
-        )} */}
-        <div className="bg-violet-400"></div>
+        )}
+      {typeof travelTimeInformation["driver"] !== "undefined" &&
+        Object.keys(travelTimeInformation["driver"]).length > 0 &&
+        typeof travelTimeInformation["passenger1"] !== "undefined" &&
+        Object.keys(travelTimeInformation["passenger1"]).length > 0 && (
+          <Calculation />
+        )}
+      <div className="bg-violet-400"></div>
     </div>
   );
 }
 
 export default Sidebar;
+
+// Driver and Passenger travel separately.
+// Driver picks up Passenger, goes to Passenger Destination and then continues onto own Destination.
+// Passenger picks up Driver, goes to Driver Destination and then continues onto own Destination.
